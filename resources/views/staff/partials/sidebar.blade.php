@@ -3,11 +3,13 @@
         <div class="nav">
             @can('supervisor')
                 <div class="sb-sidenav-menu-heading">Users</div>
-                <a class="nav-link" href="index.html">
+                <a class="nav-link {{ request()->routeIs('staf.*.staf') ? 'active' : '' }}"
+                    href="{{ route('staf.list.staf') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i>
                     </div>
                     Staff members
                 </a>
+
                 <a class="nav-link" href="index.html">
                     <div class="sb-nav-link-icon"><i class="far fa-user"></i></div>
                     Users
@@ -77,6 +79,6 @@
     </div>
     <div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
-        Start Bootstrap
+        {{ Auth::user()->role }}
     </div>
 </nav>

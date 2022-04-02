@@ -6,11 +6,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Staf extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -43,4 +44,16 @@ class Staf extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //url-ul catre imagine
+    public function photoUrl()
+    {
+        return '/images/staff/' . $this->photo;
+    }
+
+    //calea fizica catre imagine
+    public function photoPath()
+    {
+        return 'images/staff/' . $this->photo;
+    }
 }

@@ -23,4 +23,5 @@ Route::get('/dashboard', function () {
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/staff/auth.php';
+require __DIR__ . '/staff/users.php';
 require __DIR__ . '/users/admin.php';

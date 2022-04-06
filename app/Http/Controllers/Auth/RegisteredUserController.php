@@ -52,6 +52,9 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        $request->session()->flash('newUser', $request->email);
+
+
         // return redirect(RouteServiceProvider::HOME);
         return redirect(route('home'));
     }

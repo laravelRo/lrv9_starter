@@ -24,13 +24,10 @@
                         <h4>Editare membru {{ $staf->name }} staff</h4>
                     </div>
                     <div class="card-body">
-                        @csrf
 
                         {{-- === ROW 1 === --}}
                         <div class="row my-2">
 
-                            @method('PUT')
-                            @csrf
                             <div class="col-md-4">
                                 <label for="name">Nume membru staff<span class="text-danger">*</span></label>
                                 <input name="name" value="{{ old('name') ? old('name') : $staf->name }}"

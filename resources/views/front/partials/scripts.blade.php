@@ -8,4 +8,16 @@
 
  <!-- Template Main JS File -->
  <script src="/front/assets/js/main.js"></script>
+ <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ @if (session('newUser'))
+     <script>
+         Swal.fire({
+             title: 'Contul a fost creat',
+             text: 'A fost trimis un email ce contine un link pentru confirmarea contului. Linkul este valabil doua ore ',
+             icon: 'success',
+             confirmButtonText: 'OK',
+
+         });
+     </script>
+ @endif
  @stack('customJs')

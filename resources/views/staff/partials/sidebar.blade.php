@@ -10,7 +10,8 @@
                     Staff members
                 </a>
 
-                <a class="nav-link" href="index.html">
+                <a class="nav-link {{ request()->routeIs('staf.users.*') ? 'active' : '' }}"
+                    href="{{ route('staf.users.list') }}">
                     <div class="sb-nav-link-icon"><i class="far fa-user"></i></div>
                     Users
                 </a>

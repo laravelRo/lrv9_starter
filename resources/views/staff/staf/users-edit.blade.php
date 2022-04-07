@@ -2,7 +2,13 @@
 
 @section('content')
     <h1 class="my-4"><i class="fa-solid fa-user-tie"></i> Editare membru site - <span
-            class="text-info">{{ $user->name }}</span></h1>
+            class="text-info">{{ $user->name }}</span>
+        @if ($user->hasVerifiedEmail())
+            <span class="text-success"><i class="fa-solid fa-envelope"></i> </span>
+        @else
+            <span class="text-danger"><i class="fa-solid fa-envelope"></i> </span>
+        @endif
+    </h1>
     <ol class="breadcrumb mb-4 bg-light p-3">
         <li class="breadcrumb-item"><a href="{{ route('staf.cpanel') }}">Control panel</a></li>
         <li class="breadcrumb-item"><a href="{{ route('staf.users.list') }}"><i class="fa-solid fa-user-tie"></i> Users
@@ -14,11 +20,11 @@
 
     <div class="row">
         {{-- ==========
-            Editarea datelor pentru membru staf
+            Editarea datelor pentru membru inregistrat
             ========== --}}
         <div class="col-md-12">
             <div class="card my-4 p-3">
-                <form action="{{ route('staf.update.staf', $user->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('staf.users.update', $user->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="card-header">
@@ -44,10 +50,10 @@
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label for="email">Adresa email<span class="text-danger">*</span></label>
+                                <label for="email">Adresa email</label>
                                 <input name="email" value="{{ old('email') ? old('email') : $user->email }}"
                                     class="form-control @error('email') is-invalid @enderror" id="email" type="email"
-                                    placeholder="Email address of staff member" required />
+                                    placeholder="Email address of staff member" disabled />
                                 @error('email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -100,24 +106,29 @@
                             </div>
 
                             <div class="col-md-4 d-flex flex-column justify-content-center">
-                                <div class="form-check">
-                                    <input name="verified" class="form-check-input" type="checkbox" value="1" id="verified"
-                                        @if (old('verified')) {{ old('verified') ? 'checked' : '' }}
-                            @else
-                                {{ $user->email_verified_at ? 'checked' : '' }} @endif>
-                                    <label class="form-check-label" for="verified">
-                                        Email verified?
-                                    </label>
-                                </div>
+
+                                @if ($user->hasVerifiedEmail())
+                                    <label class="text-success"><i class="fa-solid fa-envelope"></i> Checked</label>
+                                @else
+                                    <label class="text-danger"><i class="fa-solid fa-envelope"></i> Unverified</label>
+                                @endif
+                                <select name="verified" class="form-select" aria-label="Default select example">
+                                    <option selected class="text-secondary">Email verification action</option>
+
+                                    <option value="mark" class="text-success">Mark email as verified</option>
+                                    <option value="send" class="text-primary">Send new notification</option>
+                                    <option value="invalid" class="text-danger">Invalidate email</option>
+                                </select>
                             </div>
                         </div>
 
 
 
+
                     </div>
                     <div class="card-footer py-3 bg-dark d-flex justify-content-between">
-                        <a href="{{ route('staf.users.list') }}" class="btn btn-secondary"><i
-                                class="fa-solid fa-rotate-left"></i>
+                        <a href="{{ session('users_url') ? session('users_url') : route('staf.users.list') }}"
+                            class="btn btn-secondary"><i class="fa-solid fa-rotate-left"></i>
                             Return</a>
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-pencil"></i> Update
                             {{ $user->name }}</button>

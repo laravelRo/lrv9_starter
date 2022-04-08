@@ -13,11 +13,34 @@ class UsersController extends Controller
     //Listam utilizatorii
     public function listUsers()
     {
+        if (request('search_user')) {
+            $search = request('search_user');
+
+            $users = User::where('name', 'LIKE', "%$search%")
+                ->orWhere('email', 'LIKE', "%$search%")
+                ->orWhere('phone', 'LIKE', "%$search%")
+                ->orderBy('name')
+                ->paginate(15)->withQueryString();
+            return view('staff.staf.users-list')
+                ->with('users', $users)
+                ->with('search', request('search_user'));
+        }
+        if (request('role')) {
+
+            $users = User::where('role', request('role'))
+                ->orderBy('name')
+                ->paginate(15)->withQueryString();
+
+            return view('staff.staf.users-list')
+                ->with('users', $users)
+                ->with('role', request('role'));
+        }
+
         if (request('blocked')) {
             $users = User::onlyTrashed()->orderBy('name')->paginate(15);
         } else {
 
-            $users = User::orderBy('name')->paginate(15);
+            $users = User::orderBy('name')->paginate(15)->withQueryString();
             Session::put('users_url', request()->fullUrl());
         }
 

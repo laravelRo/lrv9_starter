@@ -13,6 +13,18 @@
         @endif
         - {{ $users->total() }}
     </h1>
+    @if (isset($search))
+        <div class="alert alert-info">
+            Rezultatele cautarii dupa <b>{{ $search }}</b> - <a href="{{ route('staf.users.list') }}"
+                class="link-danger">Lista completa</a>
+        </div>
+    @endif
+    @if (isset($role))
+        <div class="alert alert-info">
+            Lista utilizatorilor cu rolul <b>{{ $role }}</b> - <a href="{{ route('staf.users.list') }}"
+                class="link-danger">Lista completa</a>
+        </div>
+    @endif
 
     <ol class="breadcrumb mb-4 bg-light p-3">
         <li class="breadcrumb-item"><a href="{{ route('staf.cpanel') }}">Control panel</a></li>
@@ -63,7 +75,11 @@
                                     class="fa-solid fa-2x fa-envelope"></i></button>
                         @endif
                     </td>
-                    <td>{{ $user->role }}</td>
+                    <td>
+                        <a href="{{ route('staf.users.list', ['role' => $user->role]) }}">
+                            {{ $user->role }}
+                        </a>
+                    </td>
                     <td>
                         @if (request('blocked'))
                             <form action="{{ route('staf.users.delete', $user->id) }}" id="delete-{{ $user->id }}"
